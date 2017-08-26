@@ -25,3 +25,5 @@ python create_form.py path/to/tex
 The script by default looks for `\Question{...}` commands, and for each question, looks for `\Part` commands. The outputted file is saved to the current directory. 
 
 # Gradescope Autograder
+
+Simply zip the `autograder/` directory's contents, and upload to the relevant Gradescope autograder configuration. The script simply adds up the score.
