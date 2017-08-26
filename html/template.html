@@ -270,6 +270,7 @@ form {
 .question {
     margin-top:1em;
     float:left;
+    width:100%;
 }
 .field {
     width:100%;
@@ -346,6 +347,8 @@ code {
     float:left;
     display:block;
     padding:1em;
+    white-space: nowrap;
+    overflow: scroll;
 }
 .generated_json {
     display:none;
@@ -364,7 +367,7 @@ code {
       <div class="wrap">
         <p class="sf-back"><a href="http://eecs189.org"><span class="sf-back-arr">&larr;</span> back</a></p>
         <h1>Self Grading Form</h1>
-        <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Wednesday.</p>
+        <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Wednesday at noon. <b>For any question that receives partial credit, please add a text explanation.</b> Form validation has not yet been added.</p>
         <form>
             <div class="question">
                 <h2>Question -1: Name, Email, SID</h2>
@@ -466,7 +469,7 @@ code {
                     </span>
                 </div>
                 <span class="text-cont">
-                    <input type="text">
+                    <input type="text" name="{{ question.id }}_text">
                     <label>Explanation for partial credit</label>
                 </span>
             </div>

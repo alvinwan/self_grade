@@ -21,12 +21,14 @@ for id_, question in enumerate(questions_tex[1:]):
             'id': "%d_%d" % (id_, part)
         })
         question_ids.append("%d_%d" % (id_, part))
+        question_ids.append("%d_%d_text" % (id_, part))
     if num_parts == 0:
         questions.append({
             'title': 'Question %d' % id_,
             'id': str(id_)
         })
         question_ids.append(str(id_))
+        question_ids.append(str(id_) + "_text")
 
 context['question_ids'] = '"%s"' % '","'.join(question_ids)
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
