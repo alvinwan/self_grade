@@ -1,0 +1,637 @@
+<html>
+
+  <head>
+    <title>Self-Grading Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+      <script></script>
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do|Raleway:300|Work+Sans:400,500" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script>
+$(document).ready(function() {
+    $('.button.generate').on('click', function(e) {
+        e.preventDefault();
+        renderJSON();
+    });
+
+    function renderJSON() {
+        var values = {};
+        var question_ids = ["name","email","sid","duration_homework","duration_grade","0_0","0_1","1_0","1_1","1_2","2"];
+        for (var i=0;i < question_ids.length;i ++) {
+            question_id = question_ids[i];
+            value = $('input[name=' + question_id + ']').val();
+            values[question_id] = value;
+        }
+        values['question_ids'] = question_ids;
+        json = JSON.stringify(values);
+        $('.generated_json').show();
+        console.log(json);
+        $('code').html(json);
+
+        var button = $('.button.download')[0];
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json);
+        button.setAttribute("href",     dataStr     );
+        button.setAttribute("download", "self_grades.json");
+        button.click();
+        $('.button.download').show();
+    }
+});
+    </script>
+    <style>
+          body * {
+  font-family:'Work Sans';
+    position:relative;
+}
+html,body,section,main,footer,header {
+  display:block;
+  float:left;
+  width:100%;
+}
+html,body {
+  min-height:100%;
+}
+a:hover {
+  text-decoration:none;
+}
+
+header {
+  position:fixed;
+  top:0;
+  left:0;
+  background-color:rgba(255,255,255,0.9);
+  text-align:center;
+  z-index:100;
+}
+
+head nav {
+    text-align:right;
+}
+.header-cont {
+padding:2em 3em 1em 3em;
+}
+.drawer-push header {
+left:-20em;
+}
+header nav,header ul {
+float:none;
+display:inline-block;
+padding:0;
+}
+header li {
+  list-style:none;
+  float:left;
+}
+header li + li {
+  margin-left:1em;
+}
+header li a {
+  padding:0.75em 0.5em;
+  display:inline-block;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:#666;
+}
+header a:hover:not(.small-button) {
+    border-bottom:1px dotted #ccc;
+}
+.header-text {
+padding:0.75em;
+display:inline-block;
+text-transform:uppercase;
+position:relative;
+}
+.header-title {
+    float:left;
+    text-transform:uppercase;
+    font-size:1.5em;
+    margin:0;
+    font-family:'Raleway';
+    font-weight:700;
+    padding:0.5em;
+    color:#000;
+    text-align:left;
+}
+.header-title:hover {
+  opacity:0.5;
+}
+.header-title span {
+  font-weight:300;
+}
+.forms-cont {
+    padding:10em 3.5em;
+    text-align:center;
+}
+.forms-cont h1 {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 2em;
+}
+.forms-cont h2 {
+font-weight: 600;
+    font-size:1.25em;
+}
+.forms-cont .select {
+    width:22.5em;
+}
+.button,div.select,.options a {
+  display:inline-block;
+  border:2px solid #000;
+  color:#000;
+  text-transform:uppercase;
+  padding: 1.75em 3em;
+  font-size:0.8em;
+  letter-spacing:0.25em;
+  margin-top:0.5em;
+  background-color:#FFF;
+}
+  .button.faded {
+    border:2px solid #ccc;
+    color:#ccc;
+  }
+  .button:not(.faded):hover,div.select:hover,div.select.s {
+    color:#FFF;
+    background-color:#000;
+    text-decoration:none;
+  }
+  div.select {
+    padding-right:5em;
+    position:relative;
+    text-align:left;
+    cursor:pointer;
+  }
+  .colored .select {
+    background-color:transparent;
+    border:2px solid #FFF;
+    color:#FFF;
+  }
+    .colored .select .arrow-down {
+      border-bottom:1px solid #FFF;
+      border-right:1px solid #FFF;
+    }
+    .colored .select:hover {
+      background-color:#FFF;
+      color:inherit;
+    }
+    .colored .select:hover .arrow-down,.colored .select.s .arrow-down {
+      border-bottom:1px solid #000;
+      border-right:1px solid #000;
+    }
+  .arrow-down {
+    position:absolute;
+    width:0.5em;
+    height:0.5em;
+    border-bottom:1px solid #333;
+    border-right:1px solid #333;
+    -webkit-transform:  rotate(45deg);
+    -moz-transform:     rotate(45deg);
+    -o-transform:       rotate(45deg);
+    transform:          rotate(45deg);
+    right:3em;
+    top:2em;
+  }
+    .select:hover .arrow-down,.select.s .arrow-down {
+      border-bottom:1px solid #fff;
+      border-right:1px solid #fff;
+    }
+    .select.s .arrow-down {
+      -webkit-transform:  rotate(225deg);
+      -moz-transform:     rotate(225deg);
+      -o-transform:       rotate(225deg);
+      transform:          rotate(225deg);
+    }
+  div.select li {
+    list-style:none;
+
+    span.byline {
+        clear:both;
+        text-transform:none;
+        letter-spacing:0;
+        margin-top:0.5em;
+        width:100%;
+        display:inline-block;
+    }
+  }
+    .select.s ul {
+      height:auto;
+    }
+  .select ul {
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background-color:#FFF;
+    padding:0;
+    margin-top:2px;
+    max-height:10em;
+    overflow-y:scroll;
+    box-shadow:0 0 1em 0 rgba(0,0,0,0.2);
+    height:0;
+  }
+  .select .options a {
+    border:none;
+    color:#666;
+    width:100%;
+    font-size:1em;
+    margin-top:0;
+  }
+    .select .options a:hover {
+      color:#FFF;
+      background-color:#999;
+    }
+  .select li + li {
+    border-top:1px solid #eee;
+  }
+.sp-byline {
+    margin:1em 0 1.5em 0;
+}
+.sf-back a {
+    text-transform:uppercase;
+    color:#999;
+}
+
+
+.sf-back a:hover {
+    color:#000;
+    border-bottom:1px dotted #000;
+}
+.radio-cont {
+    display:block;
+    height:2em;
+    float:left;
+    text-align:center;
+}
+form {
+    width:90%;
+    max-width:40em;
+    text-align:left;
+    float:none;
+    display:inline-block;
+}
+.question {
+    margin-top:1em;
+    float:left;
+}
+.field {
+    width:100%;
+    display:inline-block;
+    text-align:left;
+    margin:1em 0 3em 0;
+}
+.field p,.field label {
+    width:100%;
+}
+input[type="text"] {
+    width:100%;
+    border-radius:0.2em;
+    border:1px solid #ccc;
+    padding:0.5em;
+}
+input[type="text"] + label {
+    color:#999;
+    margin-top:0.5em;
+}
+.text-cont + .text-cont {
+    margin-top:1em;
+    display:inline-block;
+}
+input[type="radio"] {
+    outline: none;
+    border: none;
+    -webkit-appearance: none;
+    border: 0.2em solid #999;
+    border-radius:50%;
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    margin:1em;
+    cursor:pointer;
+}
+
+input[type="radio"]::before {
+    content:"";
+    position:absolute;
+    width:2.1em;
+    height:2.1em;
+    border:0.12em solid #ccc;
+    border-radius:50%;
+    margin-top:-0.5em;
+    margin-left:-0.5em;
+}
+
+.radio-cont input[type="radio"] + label {
+    float:left;
+    padding:0;
+    position:absolute;
+    left:50%;
+    transform: translateX(-50%);
+    top:100%;
+    margin-top:1em;
+    color:#999;
+}
+.radio-cont input[type="radio"]:checked {
+    background-color:#c90;
+    border:0.2em solid #fff;
+}
+.radio-cont input[type="radio"]:checked + label {
+    color:#c90;
+}
+.radio-cont input[type="radio"]:checked::before {
+    border:0.12em solid #c90;
+}
+form .button {
+    margin-top:3em;
+}
+code {
+    width:100%;
+    float:left;
+    display:block;
+    padding:1em;
+}
+.generated_json {
+    display:none;
+}
+.button.download {
+    display:none;
+}
+      </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="header-cont"> <a href="/"><h1 class="hidden-xs col-sm-4 col-md-3 header-title">Self<span>Grading</span></h1></a> </div>
+    </header>
+    <main class="forms-cont wrap-container">
+      <div class="wrap">
+        <p class="sf-back"><a href="http://eecs189.org"><span class="sf-back-arr">&larr;</span> back</a></p>
+        <h1>Self Grading Form</h1>
+        <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Wednesday.</p>
+        <form>
+            <div class="question">
+                <h2>Question -1: Name, Email, SID</h2>
+                <span class="text-cont">
+                    <label>Full Name</label><input type="text" name="name">
+                </span>
+                <span class="text-cont">
+                    <label>Email Address</label><input type="text" name="email">
+                </span>
+                <span class="text-cont">
+                    <label>SID</label><input type="text" name="sid">
+                </span>
+                <div class="field">
+                    <label>How long did it take to do your homework?</label>
+                    <span class="radio-cont">
+                        <input type="radio" value="<1" name="duration_homework"/>
+                        <label><1</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="1-2" name="duration_homework" />
+                        <label>1-2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2-5" name="duration_homework" />
+                        <label>2-5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5-8" name="duration_homework" />
+                        <label>5-8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8-12" name="duration_homework" />
+                        <label>8-12</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="12-15" name="duration_homework" />
+                        <label>12-15</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="15+" name="duration_homework" />
+                        <label>15+</label>
+                    </span>
+                </div>
+                <div class="field">
+                    <label>How long did it take to self-grade?</label>
+                    <span class="radio-cont">
+                        <input type="radio" value="<1" name="duration_grade"/>
+                        <label><1</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="1-2" name="duration_grade" />
+                        <label>1-2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2-5" name="duration_grade" />
+                        <label>2-5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5-8" name="duration_grade" />
+                        <label>5-8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8-12" name="duration_grade" />
+                        <label>8-12</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="12-15" name="duration_grade" />
+                        <label>12-15</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="15+" name="duration_grade" />
+                        <label>15+</label>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h2>Question 0 Part 0</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="0_0"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="0_0" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="0_0" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="0_0" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="0_0" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <h2>Question 0 Part 1</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="0_1"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="0_1" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="0_1" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="0_1" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="0_1" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <h2>Question 1 Part 0</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="1_0"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="1_0" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="1_0" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="1_0" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="1_0" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <h2>Question 1 Part 1</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="1_1"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="1_1" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="1_1" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="1_1" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="1_1" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <h2>Question 1 Part 2</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="1_2"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="1_2" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="1_2" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="1_2" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="1_2" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <h2>Question 2</h2>
+                <div class="field">
+                    <span class="radio-cont">
+                        <input type="radio" value="0" name="2"/>
+                        <label>0</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="2" name="2" />
+                        <label>2</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="5" name="2" />
+                        <label>5</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="8" name="2" />
+                        <label>8</label>
+                    </span>
+                    <span class="radio-cont">
+                        <input type="radio" value="10" name="2" />
+                        <label>10</label>
+                    </span>
+                </div>
+                <span class="text-cont">
+                    <input type="text">
+                    <label>Explanation for partial credit</label>
+                </span>
+            </div>
+            
+            <div class="question">
+                <a href="#" class="button generate">Generate JSON</a>
+                <a href="#" class="button download">Download JSON</a>
+            </div>
+            <div class="question generated_json">
+                <p>If download does not immediately begin, copy and paste the following into a file called "self_grades.json". Submit your JSON file to the Gradescope autograder for "Self-Grades".</p>
+                <code>{"2":"0","name":"","email":"","sid":"","duration_homework":"<1","duration_grade":"<1","0_0":"0","0_1":"0","1_0":"0","1_1":"0","1_2":"0"}</code>
+            </div>
+        </form>
+      </div>
+    </main>
+  </body>
+
+</html>
