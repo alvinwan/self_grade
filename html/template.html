@@ -19,7 +19,10 @@ $(document).ready(function() {
         var question_ids = [{{ question_ids }}];
         for (var i=0;i < question_ids.length;i ++) {
             question_id = question_ids[i];
-            value = $('input[name=' + question_id + ']').val();
+            value = $('input:checked[name=' + question_id + ']').val();
+            if (value === undefined) {
+                value = $('input[name=' + question_id + ']').val();
+            }
             values[question_id] = value;
         }
         values['question_ids'] = question_ids;
