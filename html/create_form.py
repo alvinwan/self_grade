@@ -13,9 +13,10 @@ question_ids = ['name', 'email', 'sid', 'duration_homework', 'duration_grade']
 context = {'questions': questions}
 
 questions_tex = tex.split('\\Question')
-for id_, question in enumerate(questions_tex[1:]):
+for id_, question in enumerate(questions_tex[1:], start=1):
     num_parts = question.count('\Part')
     for part in range(num_parts):
+        part += 1
         questions.append({
             'title': 'Question %d Part %d' % (id_, part),
             'id': "%d_%d" % (id_, part)

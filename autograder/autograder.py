@@ -4,7 +4,7 @@ Usage:
     autograder.py <json> [options]
 
 Options:
-    --out=<out>     Output file [default: results.json]
+    --out=<out>     Output file [default: /autograder/results/results.json]
 """
 
 import docopt
@@ -20,7 +20,7 @@ def main():
     total = 0.0
     for question_id in data['question_ids']:
         score = data[question_id]
-        if not question_id.endswith('_text') and score.isnumeric():
+        if (question_id.isdigit() or question_id.count('_') == 1) and score.isnumeric():
             total += float(score)
 
     output = {
@@ -30,11 +30,11 @@ def main():
         'total': total
     }
 
-    with open(arguments.get('--out', 'results.json'), 'w') as f:
-        f.write(json.dumps({
+    with open(arguments['--out'], 'w') as f:
+        json.dump({
             'output': json.dumps(output),
             'score': str(total)
-        }))
+        }, f)
 
 
 if __name__ == '__main__':
