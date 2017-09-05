@@ -14,7 +14,7 @@ import json
 def main():
     arguments = docopt.docopt(__doc__)
 
-    with open(arguments['<json>']) as f:
+    with open(arguments['<json>'], encoding='utf-8') as f:
         data = json.load(f)
 
     total = 0.0
