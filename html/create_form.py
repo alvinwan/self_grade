@@ -14,6 +14,7 @@ context = {'questions': questions}
 
 questions_tex = tex.split('\\Question')
 for id_, question in enumerate(questions_tex[1:], start=1):
+    question = '\n'.join([line.split('%')[0] for line in question.split('\n')])
     num_parts = question.count('\Part')
     for part in range(num_parts):
         part += 1
