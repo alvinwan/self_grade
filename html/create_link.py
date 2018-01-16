@@ -4,13 +4,13 @@ import sys
 def main():
     arguments = sys.argv
     filename = arguments[1]
-    base_url = arguments[2] if len(arguments) > 2 else 'http://eecs189.org/self_grade'
-    print(create_link(filename, base_url=base_url))
-
-
-def create_link(filename, base_url='http://eecs189.org/self_grade'):
     with open(filename) as f:
         tex = f.read()
+    base_url = arguments[2] if len(arguments) > 2 else 'http://eecs189.org/self_grade'
+    print(create_link(tex, base_url=base_url))
+
+
+def create_link(tex, base_url='http://eecs189.org/self_grade'):
 
     questions = []
     question_ids = ['name', 'email', 'sid', 'duration_homework', 'duration_grade']
