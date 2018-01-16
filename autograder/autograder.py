@@ -9,13 +9,34 @@ Options:
 
 import docopt
 import json
-
+import os
+import glob
 
 def main():
     arguments = docopt.docopt(__doc__)
+    try:
+        autograde(arguments['<json>'], arguments['--out'])
+    except UserWarning as e:
+        output = {'error': e.message}
+        with open(arguments['--out'], 'w') as f:
+            json.dump({
+                'output': json.dumps(output),
+                'score': 0
+            }, f)
 
-    with open(arguments['<json>'], encoding='utf-8') as f:
-        data = json.load(f)
+def autograde(path, out):
+    try:
+        with open(path, encoding='utf-8') as f:
+            data = json.load(f)
+    except FileNotFoundError as e:
+        pattern = os.path.join(os.path.dirname(path), '*.json')
+        matches = list(glob.iglob(pattern))
+        if len(matches) < 1:
+            raise UserWarning('Submission should be a .json file.')
+        path = matches[0]
+        print(' * Could not find `self_grades.json`. Trying %s' % path)
+        with open(path, encoding='utf-8') as f:
+            data = json.load(f)
 
     total = 0.0
     for question_id in data['question_ids']:
@@ -30,9 +51,10 @@ def main():
         'total': total
     }
 
-    with open(arguments['--out'], 'w') as f:
+    with open(out, 'w') as f:
         json.dump({
             'output': json.dumps(output),
+            'source': path,
             'score': str(total)
         }, f)
 
