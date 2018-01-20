@@ -60,6 +60,8 @@ $(document).ready(function() {
         });
         $('.questions').append(buttonsHTML);
         $('.questions').append(jsonHTML);
+        $('.placeholder').hide();
+        $('.non-placeholder').show();
     }
 
     renderForm();
@@ -73,6 +75,9 @@ $(document).ready(function() {
           body * {
   font-family:'Work Sans';
     position:relative;
+}
+.non-placeholder {
+    display:none;
 }
 html,body,section,main,footer,header {
   display:block;
