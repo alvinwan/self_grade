@@ -30,12 +30,20 @@ $(document).ready(function() {
     function renderJSON() {
         var values = {};
         question_ids = get_question_ids().concat(['name', 'email', 'sid', 'duration_homework', 'duration_grade']);
-        for (var i=0;i < question_ids.length;i ++) {
+        console.log(question_ids);
+        for (var i=0;i < question_ids.length;i++) {
             question_id = question_ids[i];
             value = $('input:checked[name=' + question_id + ']').val();
+            if (!value) {
+                value = $('input[name=' + question_id + ']').val();
+            }
             values[question_id] = value;
+
             comment_question_id = question_id + '_text';
-            values[comment_question_id] = $('input[name=' + comment_question_id + ']').val();
+            value = $('input[name=' + comment_question_id + ']').val();
+            if (value !== undefined) {
+                 values[comment_question_id] = value;
+            }
         }
         values['question_ids'] = question_ids;
         json = JSON.stringify(values);
