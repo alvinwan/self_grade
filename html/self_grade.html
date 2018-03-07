@@ -75,7 +75,30 @@ $(document).ready(function() {
     renderForm();
     $('.button.generate').on('click', function(e) {
         e.preventDefault();
-        renderJSON();
+        flag = true;
+
+        // Check partial credit text explanation - provided by Neel Alex
+        $(".question.template").each(function (index, element) {
+
+            // Q_num must align with the radio button name
+            q_num = $(this).children("h2").html();
+
+            // Radio button val
+            k = $(this).find("input[name=\"" + q_num + "\"]:checked").val();
+
+            // If radio button val indicates partial credit but the text value
+            // is null or empty, quit.
+            if ( ( k == 2 || k == 5 || k == 8 ) &&
+                  ! $(this).children(".text-cont input").val()) {
+                window.alert("Question " + q_num + " has partial credit" +
+                             " selected but has no explanation!");
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            renderJSON();
+        }
     });
 });
     </script>
@@ -437,7 +460,7 @@ code {
         <p class="version">v1.1</p>
         <p class="sf-back"><a href="http://eecs189.org"><span class="sf-back-arr">&larr;</span> back</a></p>
         <h1>Self Grading Form</h1>
-          <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Tuesday at 10 p.m., unless specified othrewise on Piazza. <b>For any question that receives partial credit, please add a text explanation.</b> Form validation has not yet been added.</p>
+          <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Tuesday at 10 p.m., unless specified othrewise on Piazza. <b>For any question that receives partial credit, please add a text explanation.</b></p>
         <div class="placeholder">
             <h2>See your Homework for a Self-Grading Form Link</h2>
             <p>Want to configure it yourself? Just pass the queryparam question_ids. For example, if your homework has parts `1a, 1b, 2a, 2b, 3`, use the URL <a href="http://eecs189.org/self_grade?question_ids=1a,1b,2a,2b,3">eecs189.org/self_grade?question_ids=1a,1b,2a,2b,3</a>.</p>
