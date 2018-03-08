@@ -29,22 +29,57 @@ $(document).ready(function() {
 
     function renderJSON() {
         var values = {};
-        question_ids = get_question_ids().concat(['name', 'email', 'sid', 'duration_homework', 'duration_grade']);
-        console.log(question_ids);
+        question_ids = get_question_ids();
+
         for (var i=0;i < question_ids.length;i++) {
             question_id = question_ids[i];
-            value = $('input:checked[name=' + question_id + ']').val();
-            if (!value) {
-                value = $('input[name=' + question_id + ']').val();
+            score = $('input:checked[name=' + question_id + ']').val();
+            if (!score) {
+                window.alert("Question " + question_id + " is not scored!");
+                return;
             }
-            values[question_id] = value;
+            values[question_id] = score;
 
             comment_question_id = question_id + '_text';
-            value = $('input[name=' + comment_question_id + ']').val();
-            if (value !== undefined) {
-                 values[comment_question_id] = value;
+            comment = $('input[name=' + comment_question_id + ']').val();
+            if (comment !== undefined) {
+                 values[comment_question_id] = comment;
+            }
+            if (score !== "0" && score !== "10" && comment === "") {
+                window.alert("Question " + question_id + " has partial credit" +
+                             " selected but has no explanation!");
+                return;
             }
         }
+
+        personal_info = ['name', 'email', 'sid', 'duration_homework', 'duration_grade']
+        question_ids.concat(personal_info)
+
+        for (var i=0; i < personal_info.length; i++) {
+            info_name = personal_info[i];
+            value = $('input[name=' + info_name + ']').val();
+            if (value === "<1") {
+                value = $("input[name=duration_homework]:checked").val();
+            }
+            if (!value || value === "") {
+                switch(info_name) {
+                    case "sid":
+                        window.alert("Please input your SID!")
+                        break;
+                    case "duration_homework":
+                        window.alert("Please indicate how long the homework took!")
+                        break;
+                    case "duration_grade":
+                        window.alert("Please indicate how long the self-grade took!")
+                        break;
+                    default:
+                        window.alert("Please fill out the " + info_name + " field!");
+                }
+                return;
+            }
+            values[info_name] = value;
+        }
+
         values['question_ids'] = question_ids;
         json = JSON.stringify(values);
         $('.generated_json').show();
@@ -75,30 +110,7 @@ $(document).ready(function() {
     renderForm();
     $('.button.generate').on('click', function(e) {
         e.preventDefault();
-        flag = true;
-
-        // Check partial credit text explanation - provided by Neel Alex
-        $(".question.template").each(function (index, element) {
-
-            // Q_num must align with the radio button name
-            q_num = $(this).children("h2").html();
-
-            // Radio button val
-            k = $(this).find("input[name=\"" + q_num + "\"]:checked").val();
-
-            // If radio button val indicates partial credit but the text value
-            // is null or empty, quit.
-            if ( ( k == 2 || k == 5 || k == 8 ) &&
-                  ! $(this).children(".text-cont input").val()) {
-                window.alert("Question " + q_num + " has partial credit" +
-                             " selected but has no explanation!");
-                flag = false;
-                return false;
-            }
-        });
-        if (flag) {
-            renderJSON();
-        }
+        renderJSON();
     });
 });
     </script>
@@ -457,7 +469,7 @@ code {
     </header>
     <main class="forms-cont wrap-container">
       <div class="wrap col-md-8">
-        <p class="version">v1.1</p>
+        <p class="version">v1.5</p>
         <p class="sf-back"><a href="http://eecs189.org"><span class="sf-back-arr">&larr;</span> back</a></p>
         <h1>Self Grading Form</h1>
           <p class="sp-byline">Please fill out this form and submit to Gradescope by the following Tuesday at 10 p.m., unless specified othrewise on Piazza. <b>For any question that receives partial credit, please add a text explanation.</b></p>
